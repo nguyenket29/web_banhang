@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/footer/footer.css">
+<link rel="stylesheet" href="/css/responsive/responsive.css">
+<link rel="stylesheet" href="/css/menu/menu.css">
+<link rel="stylesheet" href="/css/login/login.css">
+</head>
+<body>
+	<!-- header -->
+	<div th:replace="header/home :: header"></div>
+
+	<div class="main-container">
+		<section class="page-top page-header-7">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="breadcrumbs-wrap text-center">
+							<ul class="breadcrumb">
+								<li class="home"><a href="/" title="Back to the frontpage">Home</a>
+									<i class="fas fa-angle-right"></i></li>
+								<li><span>My Account</span></li>
+							</ul>
+						</div>
+						<div class="text-center">
+							<h1 class="page-title">
+								<span>My Account</span>
+							</h1>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- form login -->
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 main-content">
+					<div class="account-login-register">
+						<div id="CustomerLoginForm" class="form-vertical">
+							<div class="row">
+								<div class="col-md-6 mx-auto mb-5">
+									<!-- error message -->
+									<div th:if="${param.error}">
+										<div class="alert alert-danger">Invalid username or
+											password !</div>
+									</div>
+
+									<!-- logout mess -->
+									<div th:if="${param.logout}">
+										<div class="alert alert-info">You have been logged out.</div>
+									</div>
+
+									<div class="form-box">
+										<h3 class="font-weight-bold mb-2">Login</h3>
+										<div class="content">
+											<form th:action="@{/login}" method="post">
+												<ul class="form-list">
+													<li><label for="email" class="hidden-label"> <span>Email
+																Address</span><em>*</em>
+													</label> <input type="email" name="username"
+														class="input-full" autofocus required></li>
+													<li><label for="password" class="hidden-label">
+															<span>Password</span><em>*</em>
+													</label> <input type="password" name="password"
+														class="input-full" required></li>
+													<li class="mb-4"><a href="#" id="RecoverPassword">Forgot
+															your password?</a></li>
+													<li class="mb-4">
+														<button type="submit" class="btn w-100 btn-dark"
+															title="Log in">
+															<span>Log in</span>
+														</button>
+													</li>
+													<li class="mb-lg-0">
+														<button type="button" title="Create an Account"
+															class="btn w-100 btn-dark">
+															<a th:href="@{/registration}"><span>Create an
+																	Account</span></a>
+														</button>
+													</li>
+												</ul>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- footer -->
+	<footer th:replace="footer/home_css :: footer"></footer>
+
+	<!-- Jquery -->
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/all.min.js"></script>
+	<script src="/js/lightslider.js"></script>
+	<script src="/js/style.js"></script>
+</body>
+</html>

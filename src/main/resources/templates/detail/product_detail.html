@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<main> 
+		<div class="product-main mt-5" th:fragment="product_detail">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-9 main-content product-main-inner">
+						<div class="row">
+							<div class="product-img-box col-md-5">
+								<ul id="lightSlider">
+									<li th:data-thumb="@{'/img/' + ${detailById.thumbnail}}"><img
+										class="img-fluid" th:src="@{'/img/' + ${detailById.thumbnail}}" /></li>
+									<li th:data-thumb="@{'/img/' + ${detailById.thumbnail}}"><img
+										class="img-fluid" th:src="@{'/img/' + ${detailById.thumbnail}}" /></li>
+									<li th:data-thumb="@{'/img/' + ${detailById.thumbnail}}"><img
+										class="img-fluid" th:src="@{'/img/' + ${detailById.thumbnail}}" /></li>
+									<li th:data-thumb="@{'/img/' + ${detailById.thumbnail}}"><img
+										class="img-fluid" th:src="@{'/img/' + ${detailById.thumbnail}}" /></li>
+								</ul>
+							</div>
+							<div class="product-shop col-md-7">
+								<div class="product-shop-wraper">
+									<!-- name product -->
+									<div class="product-name top-product-detail">
+										<h1>
+											<a href="#"> <span>[[${detailById.name}]]</span></a>
+										</h1>
+									</div>
+
+									<!-- vote -->
+									<div class="review-product-details">
+										<span class="spr-badge"> <span
+											class="spr-starrating spr-badge-starrating"></span> <i
+											class="fas fa-star"></i> <i class="fas fa-star"></i> <i
+											class="fas fa-star"></i> <i class="fas fa-star"></i> <i
+											class="fas fa-star"></i> <span class="spr-badge-caption">No
+												reviews</span>
+										</span>
+
+									</div>
+
+									<!-- price -->
+									<div class="product-type-data">
+										<div class="price-box">
+											<div id="price" class="detail-price" itemprop="price">
+												<div class="price">
+													<span class="money">$ [[${detailById.price}]]</span>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<!-- description -->
+									<div class="short-description-detail">
+										<div class="short-description">
+											<div>[[${detailById.description}]]</div>
+										</div>
+									</div>
+									<!-- categories,check in stock -->
+									<div class="middle-product-detail">
+										<div class="product-inventory">
+											<span th:if="${detailById.quantity > 0}">Availability:
+												<span class="in-stock">In Stock</span>
+											</span> <span th:unless="${detailById.quantity > 0}">Availability:
+												<span class="in-stock">Out Of Stock</span>
+											</span>
+										</div>
+										<div class="product-category">
+											<span data-translate="products.product.category">Categories:</span>
+											<span class="category-list"><a href="#" title="">[[${detailById.category.code}]]</a></span>
+										</div>
+									</div>
+
+									<!-- size -->
+									<div id="product-variants" class="product-options">
+										<div class="swatch clearfix">
+											<div class="header">Size:</div>
+											<div class="variant-items">
+												<div data-value="Small"
+													class="swatch-element square size-small  small available">
+													<input id="swatch-0-small" type="radio" name="option-0"
+														value="Small"><label for="swatch-0-small">Small<img
+														class="crossed-out"></label>
+												</div>
+												<div data-value="Medium"
+													class="swatch-element square size-small  medium">
+													<input id="swatch-0-medium" type="radio" name="option-0"
+														value="Medium"><label for="swatch-0-medium">Medium<img
+														class="crossed-out"></label>
+												</div>
+												<div data-value="Large"
+													class="swatch-element square size-small  large">
+													<input id="swatch-0-large" type="radio" name="option-0"
+														value="Large"><label for="swatch-0-large">Large<img
+														class="crossed-out"></label>
+												</div>
+												<div data-value="Extra Large"
+													class="swatch-element square size-small  extra-large">
+													<input id="swatch-0-extra-large" type="radio"
+														name="option-0" value="Extra Large"><label
+														for="swatch-0-extra-large">Extra Large</label>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<!-- button -->
+									<div class="product-options-bottom">
+										<div class="add-to-cart-box row">
+											<div class="col-md-5">
+												<div
+													class="def-number-input number-input safari_only mb-0 w-100">
+													<a class="minus"
+														th:href="@{'/detail/minus/' + ${detailById.id} + '/' + ${detailById.quantity}}">-</a>
+													<input class="quantity" type="number"
+														onkeydown="return false;"
+														th:value="${detailById.quantity}"> <a class="plus"
+														th:href="@{'/detail/plus/' + ${detailById.id} + '/' + ${detailById.quantity}}">+</a>
+												</div>
+											</div>
+											<div class="actions col-md-7">
+												<div class="action-list addtocart">
+													<div class="button-wrapper">
+														<div class="button-wrapper-content">
+															<a
+																th:href="@{'/cart/1/' + ${detailById.id} + '/' + ${detailById.quantity}}"
+																class="btn-cart add-to-cart bordered uppercase"> <i
+																class="fas fa-cart"></i> <span>Add to Cart</span>
+															</a>
+														</div>
+													</div>
+												</div>
+												<div class="action-list wishlist">
+													<ul class="add-to-links">
+														<li><a href="#" class="link-wishlist"
+															title="Add to wishlist"><i class="fas fa-heart"></i></a></li>
+														<li><a href="#" class="link-compare"
+															title="Add to compare"><i class="far fa-chart-bar"></i></a></li>
+													</ul>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<!-- btn share -->
+									<div class="product-share">
+										<a href="#" class="share-twitter"> <i
+											class="fab fa-twitter"></i>
+										</a> <a href="#" class="share-facebook"> <i
+											class="fab fa-facebook-f"></i>
+										</a> <a href="#" class="share-linkedin"> <i
+											class="fab fa-linkedin-in"></i>
+										</a> <a href="#" class="share-googleplus"> <i
+											class="fab fa-google-plus-g"></i>
+										</a> <a href="#" class="share-email"> <i
+											class="fas fa-envelope"></i>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-3 sidebar-right col-right">
+						<div class="custom-block custom-block-1">
+							<div>
+								<i class="fas fa-shipping-fast"></i>
+								<h3>
+									FREE<br>SHIPPING
+								</h3>
+							</div>
+							<div>
+								<i class="fas fa-dollar-sign"></i>
+								<h3>
+									100% MONEY<br>BACK GUARANTEE
+								</h3>
+							</div>
+							<div>
+								<i class="fas fa-headset"></i>
+								<h3>
+									100% MONEY<br>BACK GUARANTEE
+								</h3>
+							</div>
+						</div>
+
+						<div class="img-sales">
+							<img src="/img/shop6_sidebar_banner_500x.jpg" alt=""
+								class="img-fluid">
+						</div>
+					</div>
+				</div>
+
+
+
+				<div class="row">
+					<!-- Bests seller -->
+					<section class="section-margin calc-60px">
+						<div class="container">
+							<div class="section-intro pb-60px">
+								<h4>
+									<span class="section-intro__style">ALSO PURCHASED</span>
+								</h4>
+							</div>
+							<ul class="sliders" id="sliders">
+								<li class="item" style="width: 255px; margin-right: 30px;"
+									th:each="item : ${lists}">
+									<div class="card text-center card-product">
+										<div class="card-product__img">
+											<img class="img-fluid" th:src="@{${item.thumbnail}}">
+											<ul class="card-product__imgOverlay">
+												<li><button>
+														<i class="fas fa-search"></i>
+													</button></li>
+												<li><button>
+														<i class="fas fa-shopping-cart"></i>
+													</button></li>
+												<li><button>
+														<i class="fas fa-heart"></i>
+													</button></li>
+											</ul>
+										</div>
+										<div class="card-body">
+											<p>Accessories</p>
+											<h4 class="card-product__title">
+												<a href="single-product.html">[[${item.name}]]</a>
+											</h4>
+											<p class="card-product__price">$ [[${item.price}]]</p>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</section>
+				</div>
+			</div>
+		</div>
+	</main>
+</body>
+</html>

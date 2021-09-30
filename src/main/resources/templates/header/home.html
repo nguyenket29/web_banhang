@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+	<!-- header -->
+	<header class="header_area" th:fragment="header">
+		<div class="main_menu">
+			<nav class="navbar navbar-expand-lg navbar-light">
+				<div class="container">
+					<a class="navbar-brand logo_h" th:href="@{/}"> Hello </a>
+					<button class="navbar-toggler" type="button" data-toggle="collapse"
+						data-target="#navbarSupportedContent"
+						aria-controls="navbarSupportedContent" aria-expanded="false"
+						aria-label="Toggle navigation">
+						<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+							class="icon-bar"></span>
+					</button>
+					<div class="collapse navbar-collapse offset"
+						id="navbarSupportedContent">
+						<ul class="nav navbar-nav menu_nav ml-auto mr-auto">
+							<li class="nav-item active" sec:authorize="isAuthenticated()"><a
+								class="nav-link" th:href="@{/}">Home</a></li>
+							<li class="nav-item submenu dropdown"
+								sec:authorize="isAuthenticated()"><a th:href="@{/shop}"
+								class="nav-link">Shop</a>
+								<ul class="dropdown-menu">
+									<li class="nav-item"><a class="nav-link"
+										th:href="@{/shop}">Shop Category</a></li>
+									<li class="nav-item"><a class="nav-link"
+										th:href="@{/detail}">Product Details</a></li>
+									<li class="nav-item"><a class="nav-link"
+										th:href="@{/checkout}">Product Checkout</a>
+									<li class="nav-item"><a class="nav-link"
+										th:href="@{/cart/1}">Shopping Cart</a></li>
+								</ul></li>
+							<li class="nav-item submenu dropdown"
+								sec:authorize="isAuthenticated()"><a href="#"
+								class="nav-link">Blog</a>
+								<ul class="dropdown-menu">
+									<li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+									<li class="nav-item"><a class="nav-link"
+										href="single-blog.html">Blog Details</a></li>
+								</ul></li>
+							<li class="nav-item submenu dropdown"
+								sec:authorize="isAuthenticated()"><a href="#"
+								class="nav-link">Pages</a>
+								<ul class="dropdown-menu">
+									<li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
+									<li class="nav-item"><a class="nav-link"
+										href="register.html">Register</a></li>
+									<li class="nav-item"><a class="nav-link"
+										href="tracking-order.html">Tracking</a></li>
+								</ul></li>
+							<li class="nav-item" sec:authorize="isAuthenticated()"><a
+								class="nav-link" href="#">Contact</a></li>
+						</ul>
+						<ul class="nav-shop navbar-nav" style="align-items: center;">
+							<li class="nav-item" sec:authorize="isAuthenticated()"><button>
+									<i class="fas fa-search"></i>
+								</button></li>
+							<li class="nav-item" sec:authorize="isAuthenticated()"><button>
+									<i class="fas fa-shopping-cart"></i><span
+										class="nav-shop__circle">[[${cartSize}]]</span>
+								</button></li>
+
+							<li class="nav-item" sec:authorize="isAuthenticated()"
+								style="margin-left: 20px; font-weight: 600;">
+								<button class="dropdown-toggle" type="button"
+									id="dropdownMenuButton" data-toggle="dropdown">
+									<span sec:authentication="principal.lastName"></span>&nbsp;<span
+										sec:authentication="principal.firstName"></span> <i
+										class="fas fa-user-circle"></i>
+								</button>
+								<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+									<li class="nav-item dropdown-item"><a class="nav-link"
+										href="login.html"><i class="fas fa-user"></i> <span>Tài
+												khoản</span></a></li>
+									<li class="nav-item dropdown-item"
+										sec:authorize="isAuthenticated()"><a class="nav-link"
+										th:href="@{/logout}"><i class="fas fa-sign-out-alt"></i><span>Đăng
+												xuất</span></a></li>
+									<li class="nav-item dropdown-item"><a class="nav-link"
+										href="tracking-order.html">Tracking</a></li>
+								</ul>
+							</li>
+						</ul>
+						<ul class="nav-shop">
+							<li class="nav-item" sec:authorize="isAnonymous()"><a
+								class="button-header" th:href="@{/login}"
+								style="margin: 10px 0;">Sign In</a></li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</div>
+	</header>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+	<!-- main -->
+	<main class="mt-5" th:fragment="list_product">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-4 mt-3 mb-4">
+					<h4 class="mb-4">Categories</h4>
+					<section>
+						<div class="text-muted small text-uppercase mb-5">
+							<p class="mb-3" th:each="item : ${listCategory}">
+								<a
+									th:href="@{'/shop/categoryId=' + ${item.id} + '/' + ${currentPage}}"
+									class="card-link-secondary">[[${item.name}]]</a>
+							</p>
+						</div>
+					</section>
+				</div>
+				<div class="col-lg-8">
+					<section>
+						<!-- Block content -->
+						<div
+							class="row d-flex justify-content-around align-items-center mb-4">
+							<div class="col-12 col-md-7 text-md-left d-flex">
+								<a href="#!" class="text-reset"><i
+									class="fas fa-th-list fa-lg mr-1"></i></a> <a href="#!"
+									class="text-reset"><i class="fas fa-th-large fa-lg"></i></a>
+								<div class="select-outline position-relative w-100"
+									style="margin-left: 20px;">
+									<select class="mdb-select md-outline md-form initialized">
+										<option value="" disabled selected>Sort by</option>
+										<option value="1">Popularity</option>
+										<option
+											th:value="@{'/shop/page=' + ${currentPage} + '?sortField=price&sortDir=asc'}">Price:
+											lowest to highest</option>
+										<option value="3">Price: highest to lowest</option>
+										<option value="4">Newest</option>
+										<option value="5">Most rated</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-12 col-md-5 text-center">
+								<nav aria-label="Page navigation example">
+									<ul
+										class="pagination justify-content-center float-md-right mb-0">
+										<li class="page-item"><a th:if="${currentPage > 1}"
+											th:href="@{/shop/1}" class="page-left"><i
+												class="fas fa-angle-double-left"></i></a> <span
+											th:unless="${currentPage > 1}"><i
+												class="fas fa-angle-double-left"></i></span> &nbsp;&nbsp;&nbsp;</li>
+
+										<li class="page-item"><a th:if="${currentPage > 1}"
+											th:href="@{'/shop/' + ${currentPage - 1}}" class="page-left"><i
+												class="fas fa-angle-left"></i></a> <span
+											th:unless="${currentPage > 1}"><i
+												class="fas fa-angle-left"></i></span> &nbsp;&nbsp;&nbsp;</li>
+
+										<li class="page-item"
+											th:each="i : ${#numbers.sequence(1,totalPages)}"><a
+											th:if="${i != currentPage}" th:href="@{'/shop/' + ${i}}"
+											class="page-left">[[${i}]]</a><span
+											th:unless="${i != currentPage}">[[${i}]]</span>&nbsp;&nbsp;&nbsp;</li>
+
+
+										<li class="page-item">&nbsp;<a
+											th:if="${currentPage < totalPages}"
+											th:href="@{'/shop/' + ${currentPage + 1}}" class="page-left"><i
+												class="fas fa-angle-right"></i></a> <span
+											th:unless="${currentPage < totalPages}"><i
+												class="fas fa-angle-right"></i></span> &nbsp;&nbsp;&nbsp;
+										</li>
+
+										<li class="page-item"><a
+											th:if="${currentPage < totalPages}"
+											th:href="@{'/shop/' + ${totalPages}}" class="page-left"><i
+												class="fas fa-angle-double-right"></i></a> <span
+											th:unless="${currentPage < totalPages}"><i
+												class="fas fa-angle-double-right"></i></span></li>
+									</ul>
+								</nav>
+							</div>
+						</div>
+
+						<div class="row mb-4">
+							<div class="col-md-6 col-lg-4 mb-4" th:each="item : ${lists}">
+								<div class="">
+									<div class="view zoom z-depth-2 rounded">
+										<a th:href="@{'/detail/' + ${item.id}}"
+											style="display: block;"><img style="width: 255px;height: 250px;" class="img-fluid w-100"
+											th:src="@{'/img/' + ${item.thumbnail}}" alt="Sample"></a>
+									</div>
+									<div class="text-center pt-4">
+										<h5>[[${item.name}]]</h5>
+										<h6 class="mb-3">$ [[${item.price}]]</h6>
+										<a
+											th:href="@{'/cart/' + ${currentPage} + '/' + ${item.id} + '/' + ${item.quantity}}"
+											class="btn btn-primary btn-sm mr-1 waves-effect waves-light">
+											<i class="fas fa-shopping-cart pr-2"></i>Add to cart
+										</a>
+										<button type="button"
+											class="btn btn-danger btn-sm px-3 material-tooltip-main waves-effect waves-light"
+											data-toggle="tooltip" data-placement="top" title=""
+											data-original-title="Add to wishlist">
+											<i class="far fa-heart"></i>
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+				</div>
+			</div>
+		</div>
+	</main>
+</body>
+</html>

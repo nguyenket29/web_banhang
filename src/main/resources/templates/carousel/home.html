@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+	<div id="carouselExample1" class="carousel slide z-depth-1-half"
+		data-ride="carousel" th:fragment="carousel">
+		<div class="carousel-inner" style="height: 500px;">
+			<div class="carousel-item active">
+				<div class="content content-slide-1"
+					style="position: absolute; z-index: 1; top: 33%; left: 2.4%; text-align: center;">
+					<span class="border-top"><img src="/img/border-top.png"></span>
+					<div style="position: relative; z-index: 4; left: 84px;">
+						<span style="color: #0e2f40; font-size: 18px;">80% off for
+							select items</span>
+						<h2 style="color: #0e2f40;">fashion mega sale</h2>
+						<a href="#" class="btn btn-default">shop now</a>
+					</div>
+					<span class="border-bottom"><img
+						src="/img/border-bottom.png"> </span>
+				</div>
+				<img class="d-block w-100 img-fluid" src="/img/slide1.jpg"
+					alt="First slide">
+			</div>
+			<div class="carousel-item">
+				<img class="d-block w-100 img-fluid" src="/img/slide2.jpg"
+					alt="Second slide">
+				<div class="container" style="height: 100%;">
+					<div class="content-area"
+						style="position: absolute; top: 20%; right: 100px; text-align: left;">
+						<h2 class="text1">COOL SHOES</h2>
+						<p class="text2">$ 199</p>
+						<p class="text3">* blue of orange while it last</p>
+						<a href="#" class="btn btn-default">Shop Now</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

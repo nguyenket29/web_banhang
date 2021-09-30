@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<div class="def-number-input number-input safari_only mb-0 w-100"
+		th:fragment="quantity_control(qtyValue,productId)">
+		<a class="minus" href="" >-</a> <input
+			class="quantity" type="number" onkeydown="return false;"
+			th:value="${qtyValue}"> <a
+			class="plus" th:href="@{'/qty/' + ${detailById.id}}" >+</a>
+	</div>
+</body>
+</html>

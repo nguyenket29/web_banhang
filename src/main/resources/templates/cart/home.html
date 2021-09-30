@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<title>Home</title>
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/footer/footer.css">
+<link rel="stylesheet" href="/css/responsive/responsive.css">
+<link rel="stylesheet" href="/css/menu/menu.css">
+<link rel="stylesheet" href="/css/cart/cart.css">
+<title>Shop</title>
+</head>
+<body>
+	<!-- header -->
+	<div th:replace="header/home :: header"></div>
+	
+	<!-- main -->
+	<main th:replace="cart/cart :: cart"></main>
+	
+	<!-- footer -->
+	<footer th:replace="footer/home_css :: footer"></footer>
+
+	<!-- Jquery -->
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/all.min.js"></script>
+	<script src="/js/style.js"></script>
+</body>
+</html>

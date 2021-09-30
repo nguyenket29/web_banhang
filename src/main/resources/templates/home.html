@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<title>Home</title>
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/footer/footer.css">
+<link rel="stylesheet" href="/css/responsive/responsive.css">
+<link rel="stylesheet" href="/css/menu/menu.css">
+<link rel="stylesheet" href="/css/lightslider.css">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/product.css">
+<link rel="stylesheet" href="/css/menu/carousel.css">
+</head>
+<body>
+	<!-- header -->
+	<div th:replace="header/home :: header"></div>
+	
+	<!-- carousel -->
+	<div th:replace="carousel/home :: carousel"></div>
+
+	<!-- main -->
+	<main class="site-main">
+		<!-- product -->
+		<div th:replace="content/product :: product"></div>
+
+		<!-- product seller -->
+		<div th:replace="content/product_seller :: product-seller"></div>
+
+		<!-- product support -->
+		<div th:replace="content/product_new :: product-new"></div>
+	</main>
+
+	<!-- footer -->
+	<footer th:replace="footer/home :: footer"></footer>
+
+	<!-- Jquery -->
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/all.min.js"></script>
+	<script src="/js/lightslider.js"></script>
+	<script src="/js/style.js"></script>
+	
+</body>
+</html>

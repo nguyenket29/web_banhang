@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="UTF-8">
+</head>
+<body th:fragment="product">
+	<!-- product -->
+	<section class="section-margin calc-60px">
+		<div class="container">
+			<div class="row">
+				<div class="col-12 section-intro pb-60px">
+					<p>Popular Item in the market</p>
+					<h2>
+						Trending <span class="section-intro__style">Product</span>
+					</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6 col-lg-4 col-xl-3" th:each="item : ${lists}">
+					<div class="card text-center card-product">
+						<div class="card-product__img">
+							<a th:href="@{'/detail/' + ${item.id}}"><img
+								style="width: 255px; height: 250px;" class="card-img"
+								th:src="@{'/img/' + ${item.thumbnail}}"></a>
+							<ul class="card-product__imgOverlay">
+								<li><button>
+										<i class="fas fa-search"></i>
+									</button></li>
+								<li><button>
+										<i class="fas fa-shopping-cart"></i>
+									</button></li>
+								<li><button>
+										<i class="fas fa-heart"></i>
+									</button></li>
+							</ul>
+						</div>
+						<div class="card-body">
+							<p style="text-transform: capitalize;">[[${item.category.code}]]</p>
+							<h4 class="card-product__title">
+								<a href="single-product.html"> [[${item.name}]] </a>
+							</h4>
+							<p class="card-product__price">$ [[${item.price}]]</p>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row paginated">
+				<div
+					class="col-12 justify-content-end align-items-center d-flex text-center">
+					<nav aria-label="Page navigation example">
+						<ul class="pagination  float-md-right mb-0">
+							<li class="page-item"><a th:if="${currentPage > 1}"
+								th:href="@{/page/1}" class="page-left"><i
+									class="fas fa-angle-double-left"></i></a> <span
+								th:unless="${currentPage > 1}"><i
+									class="fas fa-angle-double-left"></i></span> &nbsp;&nbsp;&nbsp;</li>
+
+							<li class="page-item"><a th:if="${currentPage > 1}"
+								th:href="@{'/page/' + ${currentPage - 1}}" class="page-left"><i
+									class="fas fa-angle-left"></i></a> <span
+								th:unless="${currentPage > 1}"><i
+									class="fas fa-angle-left"></i></span> &nbsp;&nbsp;&nbsp;</li>
+
+							<li class="page-item"
+								th:each="i : ${#numbers.sequence(1,totalPages)}"><a
+								th:if="${i != currentPage}" th:href="@{'/page/' + ${i}}"
+								class="page-left">[[${i}]]</a><span
+								th:unless="${i != currentPage}">[[${i}]]</span>&nbsp;&nbsp;&nbsp;</li>
+
+
+							<li class="page-item">&nbsp;<a
+								th:if="${currentPage < totalPages}"
+								th:href="@{'/page/' + ${currentPage + 1}}" class="page-left"><i
+									class="fas fa-angle-right"></i></a> <span
+								th:unless="${currentPage < totalPages}"><i
+									class="fas fa-angle-right"></i></span> &nbsp;&nbsp;&nbsp;
+							</li>
+
+							<li class="page-item"><a th:if="${currentPage < totalPages}"
+								th:href="@{'/page/' + ${totalPages}}" class="page-left"><i
+									class="fas fa-angle-double-right"></i></a> <span
+								th:unless="${currentPage < totalPages}"><i
+									class="fas fa-angle-double-right"></i></span></li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- brand sales -->
+	<section class="offer skrollable skrollable-between">
+		<div class="container">
+			<div class="row">
+				<div class="col-xl-5">
+					<div class="offer__content text-center">
+						<h3>Up To 50% Off</h3>
+						<h4>Winter Sale</h4>
+						<p>Him she'd let them sixth saw light</p>
+						<a class="button button--active mt-3 mt-xl-4" href="#">Shop
+							Now</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+</html>

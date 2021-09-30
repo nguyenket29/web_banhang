@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="UTF-8">
+</head>
+<body th:fragment="product-seller">
+	<!-- best seller -->
+	<section class="section-margin calc-60px">
+		<div class="container">
+			<div class="section-intro pb-60px">
+				<p>Popular Item in the market</p>
+				<h2>
+					Best <span class="section-intro__style">Sellers</span>
+				</h2>
+			</div>
+			<ul class="sliders" id="sliders">
+				<li class="item" style="width: 255px; margin-right: 30px;"
+					th:each="item : ${lists}">
+					<div class="card text-center card-product">
+						<div class="card-product__img">
+							<a th:href="@{/detail}"><img
+								style="width: 255px; height: 250px;" class="card-img"
+								th:src="@{'/img/' + ${item.thumbnail}}"></a>
+							<ul class="card-product__imgOverlay">
+								<li><button>
+										<i class="fas fa-search"></i>
+									</button></li>
+								<li><button>
+										<i class="fas fa-shopping-cart"></i>
+									</button></li>
+								<li><button>
+										<i class="fas fa-heart"></i>
+									</button></li>
+							</ul>
+						</div>
+						<div class="card-body">
+							<p style="text-transform: capitalize;">[[${item.category.code}]]</p>
+							<h4 class="card-product__title">
+								<a href="single-product.html"> [[${item.name}]] </a>
+							</h4>
+							<p class="card-product__price">$ [[${item.price}]]</p>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</section>
+</body>
+</html>
