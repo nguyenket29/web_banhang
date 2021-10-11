@@ -32,5 +32,8 @@ public interface ICartItemRepository extends JpaRepository<CartItemEntity, Long>
 	@Modifying
 	public void deleteAllByUser(long userId, long cartId);
 	
+	@Query(value = "SELECT * FROM cart_items c WHERE c.product_id = ?1", nativeQuery = true)
+	public CartItemEntity findByProductId(long productId);
+	
 	List<CartItemEntity> findAllByUser(UserEntity userEntity);
 }

@@ -9,8 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import com.hau.ketnguyen.entity.CartItemEntity;
-import com.hau.ketnguyen.entity.ProductEntity;
+import com.hau.ketnguyen.dto.CartItemDTO;
+import com.hau.ketnguyen.dto.ProductDTO;
 import com.hau.ketnguyen.service.ICategoryService;
 import com.hau.ketnguyen.service.IProductService;
 import com.hau.ketnguyen.service.IShopingCartService;
@@ -37,9 +37,9 @@ public class ShopController {
 
 	@GetMapping({ "/shop/{page}"})
 	public String viewProductCategory(Model model, @PathVariable(value = "page") int currentPage) {
-		List<CartItemEntity> cartLists = cartService.listAll(userService.getCurrentlyLoggedInUser());
-		Page<ProductEntity> page = productService.getAll(currentPage,6);
-		List<ProductEntity> list = page.getContent();
+		List<CartItemDTO> cartLists = cartService.listAll(userService.getCurrentlyLoggedInUser());
+		Page<ProductDTO> page = productService.getAll(currentPage,6);
+		List<ProductDTO> list = page.getContent();
 		long totalItems = page.getTotalElements();
 		int totalPages = page.getTotalPages();
 
@@ -55,9 +55,9 @@ public class ShopController {
 	@GetMapping("/shop/categoryId={id}/{page}")
 	public String viewProductByCategory(Model model, @PathVariable(value = "id") long categoryId,
 			@PathVariable(value = "page") int currentPage) {
-		List<CartItemEntity> cartLists = cartService.listAll(userService.getCurrentlyLoggedInUser());
-		Page<ProductEntity> page = productService.getProductByCategoryId(currentPage, categoryId);
-		List<ProductEntity> list = page.getContent();
+		List<CartItemDTO> cartLists = cartService.listAll(userService.getCurrentlyLoggedInUser());
+		Page<ProductDTO> page = productService.getProductByCategoryId(currentPage, categoryId, 6);
+		List<ProductDTO> list = page.getContent();
 		long totalItems = page.getTotalElements();
 		int totalPages = page.getTotalPages();
 

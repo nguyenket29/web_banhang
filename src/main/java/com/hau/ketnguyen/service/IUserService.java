@@ -1,9 +1,11 @@
 package com.hau.ketnguyen.service;
 
+import org.springframework.data.domain.Page;
+
 import com.hau.ketnguyen.dto.UserDTO;
-import com.hau.ketnguyen.entity.UserEntity;
 import com.hau.ketnguyen.exception.UserAlreadyExistException;
 
 public interface IUserService{
-	UserEntity save(UserDTO userDto) throws UserAlreadyExistException;
+	UserDTO save(UserDTO userDto) throws UserAlreadyExistException;
+	Page<UserDTO> getUser(int curentPage, int size);
 }

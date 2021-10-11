@@ -1,7 +1,7 @@
 package com.hau.ketnguyen.service;
 
-import com.hau.ketnguyen.entity.CustomerEntity;
+import com.hau.ketnguyen.dto.CustomerDTO;
 
 public interface ICustomerService {
-	CustomerEntity create(CustomerEntity customer);
+	CustomerDTO create(CustomerDTO customer);
 }

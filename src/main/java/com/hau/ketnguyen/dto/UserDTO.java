@@ -1,10 +1,19 @@
 package com.hau.ketnguyen.dto;
 
-public class UserDTO {
+public class UserDTO extends BaseDTO<UserDTO>{
 	private String firstName;
 	private String lastName;
 	private String email;
 	private String password;
+	private Long roleId;
+
+	public Long getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(Long roleId) {
+		this.roleId = roleId;
+	}
 
 	public String getFirstName() {
 		return firstName;

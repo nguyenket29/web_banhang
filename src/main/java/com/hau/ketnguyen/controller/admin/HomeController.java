@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.hau.ketnguyen.dto.ProductDTO;
-import com.hau.ketnguyen.entity.ProductEntity;
 import com.hau.ketnguyen.service.ICategoryService;
 import com.hau.ketnguyen.service.IProductService;
 
@@ -47,24 +46,23 @@ public class HomeController {
 		}
 
 		model.addAttribute("product", pro);
-		return "admin/homeEdit";
+		return "admin/add/homeEdit";
 	}
 
 	@PostMapping("/edit")
 	public String editHome(Model model, @ModelAttribute("product") ProductDTO product,
 			@RequestParam(value = "file", required = false) MultipartFile file) {
-		product.setThumbnail(saveFile(file));
-		productService.saveOrUpdate(product);
 		if (categoryService.listAll() != null) {
 			model.addAttribute("categories", categoryService.listAll());
 		}
-
+		product.setThumbnail(saveFile(file));
+		productService.saveOrUpdate(product);
 		model.addAttribute("product", product);
-		return "admin/homeEdit";
+		return "admin/add/homeEdit";
 	}
 
-	@GetMapping("/update")
-	public String updateHome(Model model, @RequestParam(value = "id", required = false) Long id) {
+	@GetMapping("/update/{id}")
+	public String updateHome(Model model, @PathVariable(value = "id", required = false) Long id) {
 		ProductDTO product = new ProductDTO();
 
 		if (id != null) {
@@ -76,22 +74,23 @@ public class HomeController {
 		}
 
 		model.addAttribute("product", product);
-		return "admin/homeUpdate";
+		return "admin/update/homeUpdate";
 	}
 
-	@PostMapping("/update")
-	public String updateHome(Model model, @ModelAttribute("product") ProductDTO product,
-			@RequestParam(value = "file", required = false) MultipartFile file) {
-		product.setThumbnail(saveFile(file));
-		productService.saveOrUpdate(product);
-		model.addAttribute("product", product);
-		return "admin/homeUpdate";
+	@PostMapping("/update/{id}")
+	public String updateHome(Model model, @ModelAttribute("product") ProductDTO products,
+			@RequestParam(value = "file", required = false) MultipartFile file,
+			@PathVariable(value = "id", required = false) Long id) {
+		products.setThumbnail(saveFile(file));
+		productService.saveOrUpdate(products);
+		model.addAttribute("product", products);
+		return "redirect:/admin/list/1";
 	}
 
-	@GetMapping("/list/page/{pageNumber}")
+	@GetMapping("/list/{pageNumber}")
 	public String viewPaginated(Model model, @PathVariable(name = "pageNumber") int currentPage) {
-		Page<ProductEntity> page = productService.getAll(currentPage, 4);
-		List<ProductEntity> list = page.getContent();
+		Page<ProductDTO> page = productService.getAll(currentPage,4);
+		List<ProductDTO> list = page.getContent();
 		long totalItems = page.getTotalElements();
 		int totalPages = page.getTotalPages();
 
@@ -99,7 +98,22 @@ public class HomeController {
 		model.addAttribute("totalItems", totalItems);
 		model.addAttribute("totalPages", totalPages);
 		model.addAttribute("currentPage", currentPage);
-		return "admin/homeList";
+		return "admin/list/homeList";
+	}
+	
+	@GetMapping("/delete/{pageNumber}/{id}")
+	public String deleteHome(Model model, @PathVariable(value = "id", required = false) Long id,
+			@PathVariable(name = "pageNumber") int currentPage) {
+		Page<ProductDTO> page = productService.getAll(currentPage,4);
+		List<ProductDTO> list = page.getContent();
+		long totalItems = page.getTotalElements();
+		int totalPages = page.getTotalPages();
+		productService.delete(id);
+		model.addAttribute("lists", list);
+		model.addAttribute("totalItems", totalItems);
+		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("currentPage", currentPage);
+		return "redirect:/admin/list/" + currentPage;
 	}
 
 	private String saveFile(MultipartFile file) {

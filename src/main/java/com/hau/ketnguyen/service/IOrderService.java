@@ -1,9 +1,13 @@
 package com.hau.ketnguyen.service;
 
-import com.hau.ketnguyen.entity.CustomerEntity;
-import com.hau.ketnguyen.entity.OrderEntity;
+import org.springframework.data.domain.Page;
+
+import com.hau.ketnguyen.dto.CustomerDTO;
+import com.hau.ketnguyen.dto.OrderDTO;
 import com.hau.ketnguyen.entity.UserEntity;
 
 public interface IOrderService {
-	OrderEntity create(UserEntity userEntity, CustomerEntity customerEntity);
+	OrderDTO create(OrderDTO orderDTO, UserEntity userEntity, CustomerDTO customerDTO);
+	OrderDTO findById(long id);
+	Page<OrderDTO> getAll(int currentPage, int size);
 }

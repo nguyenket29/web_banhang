@@ -1,6 +1,8 @@
 package com.hau.ketnguyen.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 import javax.transaction.Transactional;
 
@@ -10,6 +12,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.hau.ketnguyen.converter.CartItemConverter;
+import com.hau.ketnguyen.dto.CartItemDTO;
 import com.hau.ketnguyen.entity.CartItemEntity;
 import com.hau.ketnguyen.entity.ProductEntity;
 import com.hau.ketnguyen.entity.UserEntity;
@@ -24,11 +28,21 @@ public class ShoppingCartServiceImpl implements IShopingCartService {
 
 	@Autowired
 	private IProductRepository productRepository;
+	
+	@Autowired
+	private CartItemConverter cartConverter;
 
 	@Override
-	public Page<CartItemEntity> listCartItems(int page,UserEntity userEntity) {
+	public Page<CartItemDTO> listCartItems(int page,UserEntity userEntity) {
 		Pageable pageable = PageRequest.of(page - 1, 2);
-		return cartRepository.findByUser(userEntity,pageable);
+		Page<CartItemEntity> cartEntity = cartRepository.findByUser(userEntity,pageable);
+		Page<CartItemDTO> cartDto = cartEntity.map(new Function<CartItemEntity, CartItemDTO>() {
+			@Override
+			public CartItemDTO apply(CartItemEntity entity) {
+				return cartConverter.toDto(entity);
+			}
+		});
+		return cartDto;
 	}
 
 	@Override
@@ -67,14 +81,19 @@ public class ShoppingCartServiceImpl implements IShopingCartService {
 	}
 
 	@Override
-	public List<CartItemEntity> listAll(UserEntity entity) {
-		return cartRepository.findAllByUser(entity);
+	public List<CartItemDTO> listAll(UserEntity userEntity) {
+		List<CartItemDTO> dto = new ArrayList<CartItemDTO>();
+		List<CartItemEntity> entity = cartRepository.findAllByUser(userEntity);
+		for(CartItemEntity item : entity) {
+			dto.add(cartConverter.toDto(item));
+		}
+		return dto;
 	}
 
 	@Override
 	@Transactional
-	public void removeCart(CartItemEntity cartItemEntity,UserEntity userEntity) {
-		cartRepository.deleteAllByUser(userEntity.getId(), cartItemEntity.getId());
+	public void removeCart(CartItemDTO cartItemDTO,UserEntity userEntity) {
+		cartRepository.deleteAllByUser(userEntity.getId(), cartItemDTO.getId());
 	}
 
 }

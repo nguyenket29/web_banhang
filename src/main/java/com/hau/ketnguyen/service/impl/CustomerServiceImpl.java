@@ -3,6 +3,8 @@ package com.hau.ketnguyen.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hau.ketnguyen.converter.CustomerConverter;
+import com.hau.ketnguyen.dto.CustomerDTO;
 import com.hau.ketnguyen.entity.CustomerEntity;
 import com.hau.ketnguyen.repository.ICustomerRepository;
 import com.hau.ketnguyen.service.ICustomerService;
@@ -11,16 +13,14 @@ import com.hau.ketnguyen.service.ICustomerService;
 public class CustomerServiceImpl implements ICustomerService{
 	@Autowired
 	private ICustomerRepository customerRepository;
+	
+	@Autowired
+	private CustomerConverter customerConverter;
 
 	@Override
-	public CustomerEntity create(CustomerEntity cus) {
-		cus.setFirstName(cus.getFirstName());
-		cus.setLastName(cus.getLastName());
-		cus.setEmail(cus.getEmail());
-		cus.setPhone(cus.getPhone());
-		cus.setAddress(cus.getAddress());
-		cus.setInformation(cus.getInformation());
-		return customerRepository.save(cus);
+	public CustomerDTO create(CustomerDTO cus) {
+		CustomerEntity customer = customerConverter.toEntity(cus);
+		return customerConverter.toDto(customerRepository.save(customer));
 	}
 
 }

@@ -1,10 +1,10 @@
 package com.hau.ketnguyen.service;
 
-import com.hau.ketnguyen.entity.CartItemEntity;
-import com.hau.ketnguyen.entity.OrderDetailEntity;
-import com.hau.ketnguyen.entity.OrderEntity;
-import com.hau.ketnguyen.entity.ProductEntity;
+import com.hau.ketnguyen.dto.OrderDTO;
+import com.hau.ketnguyen.dto.OrderDetailDTO;
+import com.hau.ketnguyen.dto.ProductDTO;
 
 public interface IOrderDetailService {
-	OrderDetailEntity create(OrderEntity orderEntity, ProductEntity productEntity, CartItemEntity cart);
+	OrderDetailDTO create(OrderDetailDTO orderDetailDTO, ProductDTO productDTO, OrderDTO orderDTO);
+	OrderDetailDTO findById(long id);
 }

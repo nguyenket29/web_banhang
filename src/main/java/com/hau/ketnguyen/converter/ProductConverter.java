@@ -9,7 +9,9 @@ import com.hau.ketnguyen.entity.ProductEntity;
 public class ProductConverter {
 	public ProductDTO toDTO(ProductEntity entity) {
 		ProductDTO dto = new ProductDTO();
-		dto.setId(entity.getId());
+		if(entity.getId() != null) {
+			dto.setId(entity.getId());
+		}
 		dto.setName(entity.getName());
 		dto.setPrice(entity.getPrice());
 		dto.setDescription(entity.getDescription());

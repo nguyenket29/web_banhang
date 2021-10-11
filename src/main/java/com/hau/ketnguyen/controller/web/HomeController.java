@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.hau.ketnguyen.entity.CartItemEntity;
-import com.hau.ketnguyen.entity.ProductEntity;
+import com.hau.ketnguyen.dto.CartItemDTO;
+import com.hau.ketnguyen.dto.ProductDTO;
 import com.hau.ketnguyen.service.IProductService;
 import com.hau.ketnguyen.service.IShopingCartService;
 import com.hau.ketnguyen.service.impl.UserServiceImpl;
@@ -35,9 +35,9 @@ public class HomeController {
 	
 	@GetMapping("/page/{pageNumber}")
 	public String viewPaginated(Model model,@PathVariable(name = "pageNumber") int currentPage) {
-		List<CartItemEntity> cartLists = cartService.listAll(userService.getCurrentlyLoggedInUser());
-		Page<ProductEntity> page = productService.getAll(currentPage,8);
-		List<ProductEntity> list = page.getContent();
+		List<CartItemDTO> cartLists = cartService.listAll(userService.getCurrentlyLoggedInUser());
+		Page<ProductDTO> page = productService.getAll(currentPage,8);
+		List<ProductDTO> list = page.getContent();
 		long totalItems = page.getTotalElements();
 		int totalPages = page.getTotalPages();
 		

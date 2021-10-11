@@ -72,7 +72,7 @@
 										</div>
 										<div class="product-category">
 											<span data-translate="products.product.category">Categories:</span>
-											<span class="category-list"><a href="#" title="">[[${detailById.category.code}]]</a></span>
+											<span class="category-list"><a href="#" title="">[[${detailById.categoryCode}]]</a></span>
 										</div>
 									</div>
 
@@ -210,7 +210,7 @@
 									th:each="item : ${lists}">
 									<div class="card text-center card-product">
 										<div class="card-product__img">
-											<img class="img-fluid" th:src="@{${item.thumbnail}}">
+											<img class="img-fluid" th:src="@{'/img/' + ${item.thumbnail}}">
 											<ul class="card-product__imgOverlay">
 												<li><button>
 														<i class="fas fa-search"></i>

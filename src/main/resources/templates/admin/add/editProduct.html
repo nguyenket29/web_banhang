@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<div class="main-content" th:fragment="edit">
+		<div class="main-content-inner">
+			<div class="breadcrumbs" id="breadcrumbs">
+				<script type="text/javascript">
+					try {
+						ace.settings.check('breadcrumbs', 'fixed')
+					} catch (e) {
+					}
+				</script>
+
+				<ul class="breadcrumb">
+					<li><i class="ace-icon fa fa-home home-icon"></i> <a href="#">Home</a>
+					</li>
+
+					<li><a href="#">Forms</a></li>
+					<li class="active">Form Elements</li>
+				</ul>
+				<!-- /.breadcrumb -->
+			</div>
+			<div class="page-content">
+				<div class="row">
+					<div class="col-xs-12">
+						<form class="form-horizontal" th:action="@{/admin/edit}"
+							method="POST" enctype="multipart/form-data"
+							th:object="${product}">
+							<div class="form-group">
+								<label for="categoryCode"
+									class="col-sm-3 control-label no-padding-right">Thể
+									loại:</label>
+								<div class="col-sm-9">
+									<select th:field=*{categoryCode}>
+										<option value="" label="--- Chọn Thể Loại ---" />
+										<option th:each="item : ${categories}" th:value="${item.key}"
+											th:text="${item.value}" />
+									</select>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right"
+									for="name">Tên sản phẩm</label>
+								<div class="col-sm-9">
+									<input id="name" th:field="*{name}" class="col-xs-10 col-sm-5" />
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right"
+									for="price">Giá sản phẩm</label>
+								<div class="col-sm-9">
+									<input id="price" th:field="*{price}"
+										class="col-xs-10 col-sm-5" />
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right"
+									for="quantity">Số lượng sản phẩm</label>
+								<div class="col-sm-9">
+									<input id="quantity" th:field="*{quantity}"
+										class="col-xs-10 col-sm-5" />
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right"
+									for="thumbnail">Ảnh đại diện</label>
+								<div class="col-sm-9">
+									<input name="file" type="file" 
+										class="col-xs-10 col-sm-5" id="thumbnail" />
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="description"
+									class="col-sm-3 control-label no-padding-right">Mô tả
+									ngắn:</label>
+								<div class="col-sm-9">
+									<textarea id="description" th:field="*{description}" rows="5"
+										cols="10" class="col-xs-10 col-sm-5"></textarea>
+								</div>
+							</div>
+
+							<div class="clearfix form-actions">
+								<div class="col-md-offset-3 col-md-9">
+									<button class="btn btn-info" type="submit">
+										<i class="ace-icon fa fa-check bigger-110"></i> Thêm sản phẩm
+									</button>
+									&nbsp; &nbsp; &nbsp;
+									<button class="btn" type="reset">
+										<i class="ace-icon fa fa-undo bigger-110"></i> Hủy
+									</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

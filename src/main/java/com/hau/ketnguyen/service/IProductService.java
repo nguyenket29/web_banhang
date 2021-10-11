@@ -8,17 +8,19 @@ import com.hau.ketnguyen.dto.ProductDTO;
 import com.hau.ketnguyen.entity.ProductEntity;
 
 public interface IProductService {
-	Page<ProductEntity> getAll(int pageNumber,int size);
+	Page<ProductDTO> getAll(int pageNumber,int size);
 
 	List<ProductDTO> findAll();
 
-	ProductEntity findById(long id);
+	ProductDTO findById(long id);
 	
 	ProductDTO findOneById(Long id);
+	
+	void delete(long id);
 
 	int getTotalItems();
 
-	Page<ProductEntity> getProductByCategoryId(int page, long id);
+	Page<ProductDTO> getProductByCategoryId(int page, long id, int size);
 
 	Page<ProductEntity> getProductSort(int pageNumber, String sortField, String sortDir);
 	

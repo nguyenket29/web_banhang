@@ -4,8 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.hau.ketnguyen.converter.CategoryConverter;
@@ -41,4 +45,19 @@ public class CategoryServiceImpl implements ICategoryService {
 		}
 		return map;
 	}
+
+	@Override
+	public Page<CategoriesDTO> getAll(int page, int size) {
+		Pageable pageable = PageRequest.of(page - 1, size);
+		Page<CategoryEntity> paegEntity = categoryRepository.findAll(pageable);
+		Page<CategoriesDTO> pageDto = paegEntity.map(new Function<CategoryEntity,CategoriesDTO>() {
+			@Override
+			public CategoriesDTO apply(CategoryEntity entity) {
+				return categoryConverter.toDTO(entity);
+			}
+		});
+		return pageDto;
+	}
+	
+	
 }

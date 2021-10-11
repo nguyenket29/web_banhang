@@ -4,13 +4,13 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 
-import com.hau.ketnguyen.entity.CartItemEntity;
+import com.hau.ketnguyen.dto.CartItemDTO;
 import com.hau.ketnguyen.entity.UserEntity;
 
 public interface IShopingCartService {
-	Page<CartItemEntity> listCartItems(int page, UserEntity userEntity);
+	Page<CartItemDTO> listCartItems(int page, UserEntity userEntity);
 	
-	List<CartItemEntity> listAll(UserEntity entity);
+	List<CartItemDTO> listAll(UserEntity entity);
 
 	int addProductToCart(long productId, int qty, UserEntity userEntity);
 	
@@ -18,5 +18,5 @@ public interface IShopingCartService {
 	
 	void removeProductFromCart(long userId, long productId);
 	
-	void removeCart(CartItemEntity cartItemEntity, UserEntity userEntity);
+	void removeCart(CartItemDTO cartItemDTO, UserEntity userEntity);
 }
