@@ -5,14 +5,14 @@ public class UserDTO extends BaseDTO<UserDTO>{
 	private String lastName;
 	private String email;
 	private String password;
-	private Long roleId;
+	private String roleCode;
 
-	public Long getRoleId() {
-		return roleId;
+	public String getRoleCode() {
+		return roleCode;
 	}
 
-	public void setRoleId(Long roleId) {
-		this.roleId = roleId;
+	public void setRoleCode(String roleCode) {
+		this.roleCode = roleCode;
 	}
 
 	public String getFirstName() {

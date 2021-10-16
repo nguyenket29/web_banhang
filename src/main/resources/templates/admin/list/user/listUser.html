@@ -23,8 +23,9 @@
 									<div class="dt-buttons btn-overlap btn-group">
 										<a flag="info"
 											class="dt-button buttons-colvis btn btn-white btn-primary btn-bold"
-											data-toggle="tooltip" title='Thêm người dùng' href="#"> <span>
-												<i class="fa fa-plus-circle bigger-110 purple"></i>
+											data-toggle="tooltip" title='Thêm người dùng'
+											th:href="@{'/admin/user/edit'}"> <span> <i
+												class="fa fa-plus-circle bigger-110 purple"></i>
 										</span>
 										</a>
 									</div>
@@ -52,13 +53,15 @@
 												<td>[[${item.email}]]</td>
 												<td>[[${item.password}]]</td>
 												<td class="text-center"><a
-													class="btn btn-sm btn-primary btn-edit" href="#"
+													class="btn btn-sm btn-primary btn-edit"
+													th:href="@{'/admin/user/update/' + ${item.id}}"
 													style="width: 39px; height: 33px;" data-toggle="tooltip"
-													title="Cáº­p nháº­t bÃ i viáº¿t"><i class="fas fa-edit"
-														aria-hidden="true"></i> </a> <a href="#" data-toggle="tooltip"
-													style="width: 39px; height: 33px;"
+													title="Cập nhật người dùng"><i class="fas fa-edit"
+														aria-hidden="true"></i> </a> <a
+													th:href="@{'/admin/user/delete/' + ${currentPage} + '/' + ${item.id}}"
+													data-toggle="tooltip" style="width: 39px; height: 33px;"
 													class="btn btn-sm btn-white btn-edit"
-													title='XÃ³a bÃ i viáº¿t'> <span> <i
+													title='Xóa người dùng'> <span> <i
 															class="fas fa-trash-alt" aria-hidden="true"
 															style="font-size: 14px; margin-top: 3px;"></i>
 													</span>
@@ -86,8 +89,7 @@
 											<li class="page-item"
 												th:each="i : ${#numbers.sequence(1,totalPages)}"><a
 												th:if="${i != currentPage}"
-												th:href="@{'/admin/user/home/' + ${i}}"
-												class="page-left">[[${i}]]</a><span
+												th:href="@{'/admin/user/home/' + ${i}}" class="page-left">[[${i}]]</a><span
 												th:unless="${currentPage != i}">[[${i}]]</span>&nbsp;&nbsp;&nbsp;</li>
 
 

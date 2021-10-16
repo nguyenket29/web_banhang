@@ -1,9 +1,18 @@
 package com.hau.ketnguyen.dto;
 
+import java.util.Set;
+
 public class RoleDTO extends BaseDTO<RoleDTO>{
 	private String name;
 	private String code;
+	private Set<UserDTO> users;
 
+	public Set<UserDTO> getUsers() {
+		return users;
+	}
+	public void setUsers(Set<UserDTO> users) {
+		this.users = users;
+	}
 	public String getName() {
 		return name;
 	}

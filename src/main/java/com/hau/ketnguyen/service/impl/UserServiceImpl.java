@@ -52,6 +52,24 @@ public class UserServiceImpl implements IUserService {
 		updateUserRole(userEntity);
 		return userConverter.toDTO(userRepository.save(userEntity));
 	}
+	
+	@Override
+	public UserDTO adminSave(UserDTO userDto) throws UserAlreadyExistException {
+		if (checkUserExist(userDto.getEmail())) {
+			throw new UserAlreadyExistException("User already exists for this email");
+		}
+		UserEntity userEntity = new UserEntity();
+		
+		if(userDto.getId() != null) {
+			UserEntity oldUser = userRepository.findById(userDto.getId()).get();
+			userEntity = userConverter.toEntity(userDto, oldUser);
+		}else {
+			userEntity = userConverter.toEntity(userDto);
+		}
+		userEntity.setPassword(passwordEncoder.encode(userDto.getPassword()));
+		updateAdminUserRole(userEntity, userDto);
+		return userConverter.toDTO(userRepository.save(userEntity));
+	}
 
 	public boolean checkUserExist(String mail) {
 		return userRepository.findByEmail(mail) != null ? true : false;
@@ -59,6 +77,11 @@ public class UserServiceImpl implements IUserService {
 
 	public void updateUserRole(UserEntity userEntity) {
 		RoleEntity roleEntity = roleRepository.findByCode("USER");
+		userEntity.addUserRole(roleEntity);
+	}
+	
+	public void updateAdminUserRole(UserEntity userEntity,UserDTO userDTO) {
+		RoleEntity roleEntity = roleRepository.findByCode(userDTO.getRoleCode());
 		userEntity.addUserRole(roleEntity);
 	}
 	
@@ -82,5 +105,15 @@ public class UserServiceImpl implements IUserService {
 			
 		});
 		return pageDto;
+	}
+
+	@Override
+	public UserDTO findOneById(Long id) {
+		return userConverter.toDTO(userRepository.findById(id).get());
+	}
+
+	@Override
+	public void delete(long id) {
+		userRepository.deleteById(id);
 	}
 }
