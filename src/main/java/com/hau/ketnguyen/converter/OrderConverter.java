@@ -14,7 +14,7 @@ public class OrderConverter {
 		}
 		dto.setStatus(true);
 		dto.setAmount(entity.getAmount());
-		dto.setCustomerId(entity.getCustomer().getId());
+		dto.setEmail(entity.getCustomer().getEmail());
 		return dto;
 	}
 	

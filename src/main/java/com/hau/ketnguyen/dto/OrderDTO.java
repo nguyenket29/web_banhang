@@ -3,7 +3,7 @@ package com.hau.ketnguyen.dto;
 public class OrderDTO extends BaseDTO<OrderDTO>{
 	private boolean status;
 	private float amount;
-	private Long customerId;
+	private String email;
 	public boolean isStatus() {
 		return status;
 	}
@@ -16,11 +16,11 @@ public class OrderDTO extends BaseDTO<OrderDTO>{
 	public void setAmount(float amount) {
 		this.amount = amount;
 	}
-	public Long getCustomerId() {
-		return customerId;
+	public String getEmail() {
+		return email;
 	}
-	public void setCustomerId(Long customerId) {
-		this.customerId = customerId;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	
 	

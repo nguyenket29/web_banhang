@@ -38,7 +38,7 @@
 									<table class="table table-bordered">
 										<thead>
 											<tr>
-												<th>CustomerId</th>
+												<th>Email</th>
 												<th>Status</th>
 												<th>Amount</th>
 												<th>Chỉnh sửa</th>
@@ -46,7 +46,7 @@
 										</thead>
 										<tbody>
 											<tr th:each="item : ${orders}">
-												<td>[[${item.customerId}]]</td>
+												<td>[[${item.Email}]]</td>
 												<td>[[${item.status}]]</td>
 												<td>[[${item.Amount}]]</td>
 												<td class="text-center"><a

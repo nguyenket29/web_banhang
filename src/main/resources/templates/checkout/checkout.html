@@ -18,6 +18,11 @@
 						<div class="alert alert-info">You have successfully
 							checkouted !</div>
 					</div>
+					
+					<!-- failures message -->
+					<div class="col-12" th:if="${param.failure}">
+						<div class="alert alert-info">You have failurely checkouted !</div>
+					</div>
 				</div>
 
 				<!--Grid row-->

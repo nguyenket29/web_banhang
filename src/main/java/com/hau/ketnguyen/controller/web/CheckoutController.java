@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.hau.ketnguyen.dto.CartItemDTO;
 import com.hau.ketnguyen.dto.CustomerDTO;
@@ -19,10 +20,22 @@ import com.hau.ketnguyen.service.IOrderDetailService;
 import com.hau.ketnguyen.service.IOrderService;
 import com.hau.ketnguyen.service.IProductService;
 import com.hau.ketnguyen.service.IShopingCartService;
+import com.hau.ketnguyen.service.impl.PaypalPaymentIntent;
+import com.hau.ketnguyen.service.impl.PaypalPaymentMethod;
+import com.hau.ketnguyen.service.impl.PaypalServiceImpl;
 import com.hau.ketnguyen.service.impl.UserServiceImpl;
+import com.paypal.api.payments.Links;
+import com.paypal.api.payments.Payment;
+import com.paypal.base.rest.PayPalRESTException;
 
 @Controller
 public class CheckoutController {
+	@Autowired
+	private PaypalServiceImpl paypalService;
+
+	public static final String SUCCESS_URL = "checkout/success";
+	public static final String CANCEL_URL = "checkout/cancel";
+
 	@Autowired
 	private UserServiceImpl userService;
 
@@ -62,7 +75,7 @@ public class CheckoutController {
 	}
 
 	@PostMapping("/checkout")
-	public String processCheckOut(@ModelAttribute(value = "customer") CustomerDTO customer) {
+	public String processCheckOut(@ModelAttribute(value = "customer") CustomerDTO customer,Model model) {
 		UserEntity user = userService.getCurrentlyLoggedInUser();
 		OrderDTO orderDTO = new OrderDTO();
 		if (user == null) {
@@ -71,11 +84,11 @@ public class CheckoutController {
 
 		List<CartItemDTO> cartList = cartService.listAll(user);
 		CustomerDTO cus = customerService.create(customer);
-		float total = 0;
+		double total = 0;
 		for (CartItemDTO item : cartList) {
 			total += item.getPrice() * item.getQuantity();
 		}
-		orderDTO.setAmount(total);
+		orderDTO.setAmount((float) total);
 		orderDTO = orderService.create(orderDTO, user, cus);
 		for (CartItemDTO item : cartList) {
 			OrderDetailDTO orderDetailDTO = new OrderDetailDTO();
@@ -84,6 +97,41 @@ public class CheckoutController {
 			orderDetailService.create(orderDetailDTO, productService.findById(item.getProductId()), orderDTO);
 			cartService.removeCart(item, user);
 		}
-		return "redirect:/checkout?success";
+
+		try {
+			Payment payment = paypalService.createPayment(total, "USD", PaypalPaymentMethod.paypal,
+					PaypalPaymentIntent.sale, customer.getInfo(), "http://localhost:8080/" + CANCEL_URL,
+					"http://localhost:8080/" + SUCCESS_URL);
+			for (Links link : payment.getLinks()) {
+				if (link.getRel().equals("approval_url")) {
+					return "redirect:" + link.getHref();
+				}
+			}
+
+		} catch (PayPalRESTException e) {
+
+			e.printStackTrace();
+		}
+
+		return "redirect:/checkout";
+	}
+
+	@GetMapping(value = CANCEL_URL)
+	public String cancelPay() {
+		return "checkout?failure";
+	}
+
+	@GetMapping(value = SUCCESS_URL)
+	public String successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId) {
+		try {
+			Payment payment = paypalService.executePayment(paymentId, payerId);
+			//System.out.println(payment.toJSON());
+			if (payment.getState().equals("approved")) {
+				return "checkout?success";
+			}
+		} catch (PayPalRESTException e) {
+			System.out.println(e.getMessage());
+		}
+		return "redirect:/";
 	}
 }
