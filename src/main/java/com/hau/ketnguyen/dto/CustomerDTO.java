@@ -7,6 +7,15 @@ public class CustomerDTO extends BaseDTO<CustomerDTO> {
 	private String address;
 	private String info;
 	private String phone;
+	private String payment;
+
+	public String getPayment() {
+		return payment;
+	}
+
+	public void setPayment(String payment) {
+		this.payment = payment;
+	}
 
 	public String getFirstName() {
 		return firstName;

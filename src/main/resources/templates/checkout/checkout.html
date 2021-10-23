@@ -18,10 +18,11 @@
 						<div class="alert alert-info">You have successfully
 							checkouted !</div>
 					</div>
-					
+
 					<!-- failures message -->
 					<div class="col-12" th:if="${param.failure}">
-						<div class="alert alert-info">You have failurely checkouted !</div>
+						<div class="alert alert-info">You have failurely checkouted
+							!</div>
 					</div>
 				</div>
 
@@ -94,6 +95,20 @@
 									<label for="form76" class="">Additional information</label>
 									<textarea id="form76" class="md-textarea form-control" rows="4"
 										th:field="*{info}"></textarea>
+								</div>
+
+								<!-- Payment Option -->
+								<div class="form-group">
+									<div class="custom-control custom-radio custom-control-inline">
+										<input type="radio" id="option1" name="option1"
+											class="custom-control-input" value="Direct" th:field="*{payment}">
+										<label class="custom-control-label" for="option1">Thanh toán trực tiếp</label>
+									</div>
+									<div class="custom-control custom-radio custom-control-inline">
+										<input type="radio" id="option2" name="option2"
+											class="custom-control-input" value="Paypal" th:field="*{payment}">
+										<label class="custom-control-label" for="option2">Thanh toán qua Paypal</label>
+									</div>
 								</div>
 
 							</div>

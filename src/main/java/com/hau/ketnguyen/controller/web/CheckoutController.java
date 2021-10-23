@@ -75,7 +75,7 @@ public class CheckoutController {
 	}
 
 	@PostMapping("/checkout")
-	public String processCheckOut(@ModelAttribute(value = "customer") CustomerDTO customer,Model model) {
+	public String processCheckOut(@ModelAttribute(value = "customer") CustomerDTO customer, Model model) {
 		UserEntity user = userService.getCurrentlyLoggedInUser();
 		OrderDTO orderDTO = new OrderDTO();
 		if (user == null) {
@@ -83,51 +83,67 @@ public class CheckoutController {
 		}
 
 		List<CartItemDTO> cartList = cartService.listAll(user);
-		CustomerDTO cus = customerService.create(customer);
 		double total = 0;
 		for (CartItemDTO item : cartList) {
 			total += item.getPrice() * item.getQuantity();
 		}
-		orderDTO.setAmount((float) total);
-		orderDTO = orderService.create(orderDTO, user, cus);
-		for (CartItemDTO item : cartList) {
-			OrderDetailDTO orderDetailDTO = new OrderDetailDTO();
-			orderDetailDTO.setPrice(item.getPrice());
-			orderDetailDTO.setQuantity(item.getQuantity());
-			orderDetailService.create(orderDetailDTO, productService.findById(item.getProductId()), orderDTO);
-			cartService.removeCart(item, user);
-		}
 
-		try {
-			Payment payment = paypalService.createPayment(total, "USD", PaypalPaymentMethod.paypal,
-					PaypalPaymentIntent.sale, customer.getInfo(), "http://localhost:8080/" + CANCEL_URL,
-					"http://localhost:8080/" + SUCCESS_URL);
-			for (Links link : payment.getLinks()) {
-				if (link.getRel().equals("approval_url")) {
-					return "redirect:" + link.getHref();
-				}
+		if (customer.getPayment().equals("Direct")) {
+			CustomerDTO cus = customerService.create(customer);
+			orderDTO.setAmount((float) total);
+			orderDTO = orderService.create(orderDTO, user, cus);
+			for (CartItemDTO item : cartList) {
+				OrderDetailDTO orderDetailDTO = new OrderDetailDTO();
+				orderDetailDTO.setPrice(item.getPrice());
+				orderDetailDTO.setQuantity(item.getQuantity());
+				orderDetailService.create(orderDetailDTO, productService.findById(item.getProductId()), orderDTO);
+				cartService.removeCart(item, user);
 			}
-
-		} catch (PayPalRESTException e) {
-
-			e.printStackTrace();
 		}
 
-		return "redirect:/checkout";
+		if (customer.getPayment().equals("Paypal")) {
+			try {
+				Payment payment = paypalService.createPayment(total, "USD", PaypalPaymentMethod.paypal,
+						PaypalPaymentIntent.sale, customer.getInfo(), "http://localhost:8080/" + CANCEL_URL,
+						"http://localhost:8080/" + SUCCESS_URL);
+				for (Links link : payment.getLinks()) {
+					if (link.getRel().equals("approval_url")) {
+						CustomerDTO cus = customerService.create(customer);
+						orderDTO.setAmount((float) total);
+						orderDTO = orderService.create(orderDTO, user, cus);
+						for (CartItemDTO item : cartList) {
+							OrderDetailDTO orderDetailDTO = new OrderDetailDTO();
+							orderDetailDTO.setPrice(item.getPrice());
+							orderDetailDTO.setQuantity(item.getQuantity());
+							orderDetailService.create(orderDetailDTO, productService.findById(item.getProductId()),
+									orderDTO);
+							cartService.removeCart(item, user);
+						}
+						return "redirect:" + link.getHref();
+					}
+				}
+
+			} catch (PayPalRESTException e) {
+
+				e.printStackTrace();
+			}
+		}
+
+		return "redirect:/checkout?success";
 	}
 
 	@GetMapping(value = CANCEL_URL)
 	public String cancelPay() {
-		return "checkout?failure";
+		return "redirect:/checkout?failure";
 	}
 
 	@GetMapping(value = SUCCESS_URL)
 	public String successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId) {
 		try {
 			Payment payment = paypalService.executePayment(paymentId, payerId);
-			//System.out.println(payment.toJSON());
+			// System.out.println(payment.toJSON());
 			if (payment.getState().equals("approved")) {
-				return "checkout?success";
+				return "redirect:/checkout?success";
 			}
 		} catch (PayPalRESTException e) {
 			System.out.println(e.getMessage());
