@@ -2,6 +2,7 @@ package com.hau.ketnguyen.controller.web;
 
 import java.util.List;
 
+import com.hau.ketnguyen.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,10 +11,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.hau.ketnguyen.dto.CartItemDTO;
-import com.hau.ketnguyen.dto.CustomerDTO;
-import com.hau.ketnguyen.dto.OrderDTO;
-import com.hau.ketnguyen.dto.OrderDetailDTO;
 import com.hau.ketnguyen.entity.UserEntity;
 import com.hau.ketnguyen.service.ICustomerService;
 import com.hau.ketnguyen.service.IOrderDetailService;
@@ -89,16 +86,7 @@ public class CheckoutController {
 		}
 
 		if (customer.getPayment().equals("Direct")) {
-			CustomerDTO cus = customerService.create(customer);
-			orderDTO.setAmount((float) total);
-			orderDTO = orderService.create(orderDTO, user, cus);
-			for (CartItemDTO item : cartList) {
-				OrderDetailDTO orderDetailDTO = new OrderDetailDTO();
-				orderDetailDTO.setPrice(item.getPrice());
-				orderDetailDTO.setQuantity(item.getQuantity());
-				orderDetailService.create(orderDetailDTO, productService.findById(item.getProductId()), orderDTO);
-				cartService.removeCart(item, user);
-			}
+			orderDTO = getOrderDTO(customer, user, orderDTO, cartList, (float) total);
 		}
 
 		if (customer.getPayment().equals("Paypal")) {
@@ -108,17 +96,7 @@ public class CheckoutController {
 						"http://localhost:8080/" + SUCCESS_URL);
 				for (Links link : payment.getLinks()) {
 					if (link.getRel().equals("approval_url")) {
-						CustomerDTO cus = customerService.create(customer);
-						orderDTO.setAmount((float) total);
-						orderDTO = orderService.create(orderDTO, user, cus);
-						for (CartItemDTO item : cartList) {
-							OrderDetailDTO orderDetailDTO = new OrderDetailDTO();
-							orderDetailDTO.setPrice(item.getPrice());
-							orderDetailDTO.setQuantity(item.getQuantity());
-							orderDetailService.create(orderDetailDTO, productService.findById(item.getProductId()),
-									orderDTO);
-							cartService.removeCart(item, user);
-						}
+						orderDTO = getOrderDTO(customer, user, orderDTO, cartList, (float) total);
 						return "redirect:" + link.getHref();
 					}
 				}
@@ -130,6 +108,24 @@ public class CheckoutController {
 		}
 
 		return "redirect:/checkout?success";
+	}
+
+	private OrderDTO getOrderDTO(@ModelAttribute("customer") CustomerDTO customer, UserEntity user,
+								 OrderDTO orderDTO, List<CartItemDTO> cartList, float total) {
+		CustomerDTO cus = customerService.create(customer);
+		orderDTO.setAmount(total);
+		orderDTO = orderService.create(orderDTO, user, cus);
+		for (CartItemDTO item : cartList) {
+			OrderDetailDTO orderDetailDTO = new OrderDetailDTO();
+			orderDetailDTO.setPrice(item.getPrice());
+			orderDetailDTO.setQuantity(item.getQuantity());
+			orderDetailService.create(orderDetailDTO, productService.findById(item.getProductId()), orderDTO);
+			cartService.removeCart(item, user);
+			ProductDTO productDTO = productService.findById(item.getProductId());
+			productDTO.setQuantity(productDTO.getQuantity() - item.getQuantity());
+			productService.saveOrUpdate(productDTO);
+		}
+		return orderDTO;
 	}
 
 	@GetMapping(value = CANCEL_URL)

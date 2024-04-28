@@ -121,7 +121,9 @@ public class HomeController {
 			try {
 				byte[] bytes = file.getBytes();
 				// creating folder save file
-				File dir = new File("D:\\jee-2020-09\\project\\springboot-project-web\\src\\main\\resources"
+//				File dir = new File("D:\\jee-2020-09\\project\\springboot-project-web\\src\\main\\resources"
+//						+ File.separator + "static/img");
+				File dir = new File("src/main/resources"
 						+ File.separator + "static/img");
 				if (!dir.exists()) {
 					dir.mkdir();
